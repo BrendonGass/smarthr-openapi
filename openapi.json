@@ -3,7 +3,7 @@
   "info": {
     "title": "SmartHR API",
     "version": "1.0.0",
-    "description": "API for retrieving employee data, full profile info, and pay history from SmartHR."
+    "description": "API for retrieving employee records from the SmartHR database."
   },
   "servers": [
     {
@@ -13,8 +13,8 @@
   "paths": {
     "/get-employee": {
       "get": {
+        "summary": "Get basic employee info",
         "operationId": "getEmployee",
-        "summary": "Fetch employee data by employee number",
         "parameters": [
           {
             "name": "employee_number",
@@ -23,7 +23,7 @@
             "schema": {
               "type": "string"
             },
-            "description": "Employee number (e.g., CP003)"
+            "description": "EmployeeNum value, e.g. CP003 or CEO_1"
           },
           {
             "name": "table",
@@ -34,12 +34,53 @@
               "enum": ["Personnel", "Personnel1"],
               "default": "Personnel"
             },
-            "description": "Which table to use"
+            "description": "Which Personnel table to use"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful response with employee data",
+            "description": "Employee data returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "EmployeeNum": { "type": "string" },
+                    "FirstName": { "type": "string" },
+                    "Surname": { "type": "string" },
+                    "JobTitle": { "type": "string" },
+                    "DeptName": { "type": "string" },
+                    "Appointdate": { "type": "string", "format": "date" }
+                  },
+                  "required": ["EmployeeNum"]
+                }
+              }
+            }
+          },
+          "400": { "description": "Missing parameters" },
+          "404": { "description": "Employee not found" },
+          "500": { "description": "Server error" }
+        }
+      }
+    },
+    "/get-employee-full": {
+      "get": {
+        "summary": "Get full profile and job description",
+        "operationId": "getEmployeeFull",
+        "parameters": [
+          {
+            "name": "employee_number",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "EmployeeNum to search"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Extended employee data",
             "content": {
               "application/json": {
                 "schema": {
@@ -47,91 +88,23 @@
                   "properties": {
                     "EmployeeNum": { "type": "string" },
                     "PreferredName": { "type": "string" },
-                    "Surname": { "type": "string" }
-                  },
-                  "required": ["EmployeeNum"],
-                  "additionalProperties": true
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/get-employee-full": {
-      "get": {
-        "operationId": "getEmployeeFull",
-        "summary": "Fetch full employee profile with job and position details",
-        "parameters": [
-          {
-            "name": "employee_number",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Employee number"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response with full profile",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "EmployeeNum": { "type": "string" },
+                    "Surname": { "type": "string" },
                     "JobTitle": { "type": "string" },
+                    "PositionTitle": { "type": "string" },
                     "ProfileName": { "type": "string" },
                     "Description": { "type": "string" }
                   },
-                  "required": ["EmployeeNum"],
-                  "additionalProperties": true
+                  "required": ["EmployeeNum"]
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "/get-pay-history": {
-      "get": {
-        "operationId": "getPayHistory",
-        "summary": "Get historical pay data for an employee",
-        "parameters": [
-          {
-            "name": "employee_number",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Employee number"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response with pay history",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "PayDate": { "type": "string", "format": "date" },
-                      "Amount": { "type": "number" }
-                    },
-                    "required": ["PayDate", "Amount"],
-                    "additionalProperties": true
-                  }
-                }
-              }
-            }
-          }
+          },
+          "400": { "description": "Missing parameters" },
+          "404": { "description": "Employee not found" },
+          "500": { "description": "Server error" }
         }
       }
     }
   }
 }
+
