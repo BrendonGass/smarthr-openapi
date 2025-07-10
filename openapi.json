@@ -1,0 +1,59 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SmartHR Employee API",
+    "version": "1.0.0",
+    "description": "API for retrieving employee information from the SmartHR SQL Server database using an employee number."
+  },
+  "servers": [
+    {
+      "url": "https://sql-api-gpt--annelisemuller8.replit.app"
+    }
+  ],
+  "paths": {
+    "/get-employee": {
+      "get": {
+        "summary": "Get employee details by number",
+        "parameters": [
+          {
+            "name": "employee_number",
+            "in": "query",
+            "description": "The employee number to search for (e.g., 0154)",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "table",
+            "in": "query",
+            "description": "The table to search in (Personnel or Personnel1)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["Personnel", "Personnel1"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful employee lookup",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employee not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  }
+}
