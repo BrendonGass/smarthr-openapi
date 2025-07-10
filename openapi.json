@@ -38,7 +38,21 @@
             "description": "Basic employee info",
             "content": {
               "application/json": {
-                "schema": { "type": "object" }
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "EmployeeNum": { "type": "string" },
+                    "PreferredName": { "type": "string" },
+                    "Surname": { "type": "string" },
+                    "JobTitle": { "type": "string" }
+                  },
+                  "example": {
+                    "EmployeeNum": "CP003",
+                    "PreferredName": "Martha",
+                    "Surname": "Stewart",
+                    "JobTitle": "Recruitment Manager"
+                  }
+                }
               }
             }
           }
@@ -62,7 +76,21 @@
             "description": "Full employee record",
             "content": {
               "application/json": {
-                "schema": { "type": "object" }
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "EmployeeNum": { "type": "string" },
+                    "JobTitle": { "type": "string" },
+                    "ProfileName": { "type": "string" },
+                    "Description": { "type": "string" }
+                  },
+                  "example": {
+                    "EmployeeNum": "CEO_1",
+                    "JobTitle": "Chief Executive Officer",
+                    "ProfileName": "Executive Leadership",
+                    "Description": "Responsible for overall company strategy and operations."
+                  }
+                }
               }
             }
           }
@@ -88,7 +116,21 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "items": { "type": "object" }
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "EmployeeNum": { "type": "string" },
+                      "PayDate": { "type": "string", "format": "date" },
+                      "Amount": { "type": "number" },
+                      "Description": { "type": "string" }
+                    },
+                    "example": {
+                      "EmployeeNum": "CP003",
+                      "PayDate": "2023-12-01",
+                      "Amount": 42000.50,
+                      "Description": "Monthly salary"
+                    }
+                  }
                 }
               }
             }
