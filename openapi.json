@@ -42,7 +42,13 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object"
+                  "type": "object",
+                  "properties": {
+                    "EmployeeNum": { "type": "string" },
+                    "FirstName": { "type": "string" },
+                    "LastName": { "type": "string" },
+                    "Position": { "type": "string" }
+                  }
                 }
               }
             }
@@ -58,3 +64,4 @@
     }
   }
 }
+
