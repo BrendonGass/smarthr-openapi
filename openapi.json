@@ -3,7 +3,7 @@
   "info": {
     "title": "SmartHR Employee API",
     "version": "1.0.0",
-    "description": "API for retrieving employee information from the SmartHR SQL Server database using an employee number."
+    "description": "API for retrieving employee information from SQL Server."
   },
   "servers": [
     {
@@ -14,13 +14,13 @@
     "/get-employee": {
       "get": {
         "operationId": "getEmployee",
-        "summary": "Get employee details by number",
+        "summary": "Retrieve employee info by number and table",
         "parameters": [
           {
             "name": "employee_number",
             "in": "query",
-            "description": "The employee number to search for (e.g., 0154)",
             "required": true,
+            "description": "Employee number to look up",
             "schema": {
               "type": "string"
             }
@@ -28,8 +28,8 @@
           {
             "name": "table",
             "in": "query",
-            "description": "The table to search in (Personnel or Personnel1)",
             "required": true,
+            "description": "Table to search (Personnel or Personnel1)",
             "schema": {
               "type": "string",
               "enum": ["Personnel", "Personnel1"]
@@ -38,7 +38,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful employee lookup",
+            "description": "Employee found",
             "content": {
               "application/json": {
                 "schema": {
@@ -51,7 +51,7 @@
             "description": "Employee not found"
           },
           "500": {
-            "description": "Server error"
+            "description": "Internal server error"
           }
         }
       }
