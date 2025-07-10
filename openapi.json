@@ -1,49 +1,72 @@
-"/get-employee": {
-  "get": {
-    "operationId": "getEmployee",
-    "summary": "Get employee details by employee number",
-    "parameters": [
-      {
-        "name": "employee_number",
-        "in": "query",
-        "description": "The unique employee number (e.g., CP003)",
-        "required": true,
-        "schema": {
-          "type": "string"
-        }
-      },
-      {
-        "name": "table",
-        "in": "query",
-        "description": "The table to search in (Personnel or Personnel1)",
-        "required": false,
-        "schema": {
-          "type": "string",
-          "default": "Personnel"
-        }
-      }
-    ],
-    "responses": {
-      "200": {
-        "description": "Successful employee lookup",
-        "content": {
-          "application/json": {
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SmartHR Employee API",
+    "version": "1.0.0",
+    "description": "An API for retrieving employee information from SmartHR's SQL Server database."
+  },
+  "servers": [
+    {
+      "url": "https://smarthr-flask-api.onrender.com"
+    }
+  ],
+  "paths": {
+    "/get-employee": {
+      "get": {
+        "operationId": "getEmployee",
+        "summary": "Get employee details by employee number",
+        "parameters": [
+          {
+            "name": "employee_number",
+            "in": "query",
+            "required": true,
+            "description": "The employee's unique number (e.g., CP003 or 0155)",
             "schema": {
-              "type": "object",
-              "properties": {
-                "EmployeeNum": { "type": "string" },
-                "FirstName": { "type": "string" },
-                "Surname": { "type": "string" },
-                "JobTitle": { "type": "string" },
-                "DeptName": { "type": "string" }
-              },
-              "additionalProperties": true
+              "type": "string"
+            }
+          },
+          {
+            "name": "table",
+            "in": "query",
+            "required": false,
+            "description": "The table to search in (Personnel or Personnel1). Defaults to Personnel.",
+            "schema": {
+              "type": "string",
+              "default": "Personnel",
+              "enum": ["Personnel", "Personnel1"]
             }
           }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful employee lookup",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "EmployeeNum": { "type": "string" },
+                    "FirstName": { "type": "string" },
+                    "Surname": { "type": "string" },
+                    "JobTitle": { "type": "string" },
+                    "DeptName": { "type": "string" },
+                    "Email": { "type": "string" }
+                  },
+                  "additionalProperties": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing or invalid parameters"
+          },
+          "404": {
+            "description": "Employee not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
         }
-      },
-      "404": {
-        "description": "Employee not found"
       }
     }
   }
