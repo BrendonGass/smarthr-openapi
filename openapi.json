@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://sql-api-gpt--annelisemuller8.replit.app"
+      "url": "https://smarthr-api.onrender.com"
     }
   ],
   "paths": {
