@@ -1,10 +1,15 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "SmartHR Employee API",
+    "title": "SmartHR API",
     "version": "1.0.0",
-    "description": "API to retrieve employee information, including full history and profiles."
+    "description": "API for retrieving employee data from SmartHR system, including basic and full profile info with historical pay."
   },
+  "servers": [
+    {
+      "url": "https://smarthr-flask-api.onrender.com"
+    }
+  ],
   "paths": {
     "/get-employee": {
       "get": {
@@ -24,7 +29,11 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "Personnel",
+                "Personnel1"
+              ]
             }
           }
         ],
@@ -39,7 +48,7 @@
                     "EmployeeNum": {
                       "type": "string"
                     },
-                    "PreferredName": {
+                    "FirstName": {
                       "type": "string"
                     },
                     "Surname": {
@@ -50,13 +59,22 @@
                     },
                     "DeptName": {
                       "type": "string"
+                    },
+                    "Appointdate": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "Termination": {
+                      "type": "boolean"
+                    },
+                    "TerminationDate": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "TerminationReason": {
+                      "type": "string"
                     }
-                  },
-                  "required": [
-                    "EmployeeNum",
-                    "PreferredName",
-                    "Surname"
-                  ]
+                  }
                 }
               }
             }
@@ -66,7 +84,7 @@
     },
     "/get-employee-full": {
       "get": {
-        "summary": "Get full employee data including pay and job profile",
+        "summary": "Get full employee data with pay and job profile info",
         "operationId": "get_employee_full",
         "parameters": [
           {
@@ -80,7 +98,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Full employee profile with job and pay info",
+            "description": "Full employee profile with pay history",
             "content": {
               "application/json": {
                 "schema": {
@@ -89,7 +107,7 @@
                     "EmployeeNum": {
                       "type": "string"
                     },
-                    "PreferredName": {
+                    "FirstName": {
                       "type": "string"
                     },
                     "Surname": {
@@ -99,6 +117,23 @@
                       "type": "string"
                     },
                     "DeptName": {
+                      "type": "string"
+                    },
+                    "Appointdate": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "Termination": {
+                      "type": "boolean"
+                    },
+                    "TerminationDate": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "TerminationReason": {
+                      "type": "string"
+                    },
+                    "Position": {
                       "type": "string"
                     },
                     "PositionTitle": {
@@ -116,21 +151,25 @@
                     "Description": {
                       "type": "string"
                     },
-                    "PayYear": {
-                      "type": "integer"
-                    },
-                    "PayMonth": {
-                      "type": "integer"
-                    },
-                    "PayAmount": {
-                      "type": "number"
+                    "PayHistory": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "PayDate": {
+                            "type": "string",
+                            "format": "date"
+                          },
+                          "Amount": {
+                            "type": "number"
+                          },
+                          "PayType": {
+                            "type": "string"
+                          }
+                        }
+                      }
                     }
-                  },
-                  "required": [
-                    "EmployeeNum",
-                    "PreferredName",
-                    "Surname"
-                  ]
+                  }
                 }
               }
             }
