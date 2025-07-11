@@ -19,7 +19,9 @@
             "name": "employee_number",
             "in": "query",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "table",
@@ -27,23 +29,20 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["Personnel", "Personnel1"],
-              "default": "Personnel"
+              "enum": [
+                "Personnel",
+                "Personnel1"
+              ]
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Basic employee record",
+            "description": "Basic employee data retrieved",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "EmployeeNum": { "type": "string" },
-                    "PreferredName": { "type": "string" },
-                    "Surname": { "type": "string" }
-                  },
                   "additionalProperties": true
                 }
               }
@@ -54,42 +53,29 @@
     },
     "/get-employee-full": {
       "get": {
-        "summary": "Get full profile and pay history",
+        "summary": "Get full employee data with joined job profile and pay",
         "operationId": "get_employee_full",
         "parameters": [
           {
             "name": "employee_number",
             "in": "query",
             "required": true,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Full employee profile and pay history",
+            "description": "Detailed employee data including historic pay",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "EmployeeNum": { "type": "string" },
-                    "PreferredName": { "type": "string" },
-                    "Surname": { "type": "string" },
-                    "JobTitle": { "type": "string" },
-                    "DeptName": { "type": "string" },
-                    "PayHistory": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "PayDate": { "type": "string" },
-                          "Amount": { "type": "number" },
-                          "PayType": { "type": "string" }
-                        }
-                      }
-                    }
-                  },
-                  "additionalProperties": true
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
                 }
               }
             }
@@ -99,4 +85,3 @@
     }
   }
 }
-
