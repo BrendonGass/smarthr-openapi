@@ -38,12 +38,28 @@
         ],
         "responses": {
           "200": {
-            "description": "Basic employee data retrieved",
+            "description": "Successful response with employee data",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true
+                  "properties": {
+                    "EmployeeNum": {
+                      "type": "string"
+                    },
+                    "PreferredName": {
+                      "type": "string"
+                    },
+                    "Surname": {
+                      "type": "string"
+                    },
+                    "JobTitle": {
+                      "type": "string"
+                    },
+                    "DeptName": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
@@ -53,7 +69,7 @@
     },
     "/get-employee-full": {
       "get": {
-        "summary": "Get full employee data with joined job profile and pay",
+        "summary": "Get full employee data including job profile and pay",
         "operationId": "get_employee_full",
         "parameters": [
           {
@@ -67,14 +83,57 @@
         ],
         "responses": {
           "200": {
-            "description": "Detailed employee data including historic pay",
+            "description": "Detailed employee profile with pay and job profile",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "additionalProperties": true
+                  "type": "object",
+                  "properties": {
+                    "EmployeeNum": {
+                      "type": "string"
+                    },
+                    "PreferredName": {
+                      "type": "string"
+                    },
+                    "Surname": {
+                      "type": "string"
+                    },
+                    "Sex": {
+                      "type": "string"
+                    },
+                    "Appointdate": {
+                      "type": "string"
+                    },
+                    "JobTitle": {
+                      "type": "string"
+                    },
+                    "DeptName": {
+                      "type": "string"
+                    },
+                    "PositionTitle": {
+                      "type": "string"
+                    },
+                    "Salary": {
+                      "type": "number"
+                    },
+                    "ProfileID": {
+                      "type": "integer"
+                    },
+                    "ProfileName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    },
+                    "PayYear": {
+                      "type": "integer"
+                    },
+                    "PayMonth": {
+                      "type": "integer"
+                    },
+                    "PayAmount": {
+                      "type": "number"
+                    }
                   }
                 }
               }
