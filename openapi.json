@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "SmartHR API",
-    "version": "1.0.0",
-    "description": "API to retrieve employee data and pay history from the SmartHR system."
+    "version": "1.0.1",
+    "description": "Retrieve employee records and pay history from the SmartHR database."
   },
   "servers": [
     {
@@ -14,7 +14,7 @@
     "/get-employee": {
       "get": {
         "operationId": "get_employee",
-        "summary": "Get basic employee data",
+        "summary": "Get employee basic data",
         "parameters": [
           {
             "name": "employee_number",
@@ -22,7 +22,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "example": "CP003"
+              "example": "0154"
             }
           },
           {
@@ -38,11 +38,17 @@
         ],
         "responses": {
           "200": {
-            "description": "Employee data retrieved",
+            "description": "Successful response with employee data",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "properties": {
+                    "EmployeeNum": { "type": "string" },
+                    "PreferredName": { "type": "string" },
+                    "Surname": { "type": "string" },
+                    "JobTitle": { "type": "string" }
+                  },
                   "additionalProperties": true
                 }
               }
@@ -60,7 +66,7 @@
     "/get-employee-full": {
       "get": {
         "operationId": "get_employee_full",
-        "summary": "Get full employee profile and pay history",
+        "summary": "Get full employee profile including job and pay history",
         "parameters": [
           {
             "name": "employee_number",
@@ -68,13 +74,13 @@
             "required": true,
             "schema": {
               "type": "string",
-              "example": "CEO_1"
+              "example": "CP003"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Full employee profile and pay history",
+            "description": "Successful response with full profile and pay data",
             "content": {
               "application/json": {
                 "schema": {
@@ -82,17 +88,25 @@
                   "properties": {
                     "Employee": {
                       "type": "object",
-                      "description": "Basic employee and job profile info",
+                      "properties": {
+                        "EmployeeNum": { "type": "string" },
+                        "PreferredName": { "type": "string" },
+                        "Surname": { "type": "string" },
+                        "JobTitle": { "type": "string" },
+                        "DeptName": { "type": "string" },
+                        "Appointdate": { "type": "string", "format": "date-time" },
+                        "Termination": { "type": "boolean" }
+                      },
                       "additionalProperties": true
                     },
                     "PayHistory": {
                       "type": "array",
-                      "description": "List of pay history records",
                       "items": {
                         "type": "object",
                         "properties": {
                           "PayPeriod": { "type": "string" },
-                          "TemplateName": { "type": "string" }
+                          "TemplateName": { "type": "string" },
+                          "Salary": { "type": "number" }
                         },
                         "additionalProperties": true
                       }
@@ -101,6 +115,9 @@
                 }
               }
             }
+          },
+          "404": {
+            "description": "Employee not found"
           },
           "500": {
             "description": "Server error"
