@@ -38,38 +38,25 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful response with employee data",
+            "description": "Successful response",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "EmployeeNum": {
-                      "type": "string"
-                    },
-                    "PreferredName": {
-                      "type": "string"
-                    },
-                    "Surname": {
-                      "type": "string"
-                    },
-                    "JobTitle": {
-                      "type": "string"
-                    },
-                    "DeptName": {
-                      "type": "string"
-                    }
-                  }
+                  "additionalProperties": true
                 }
               }
             }
+          },
+          "404": {
+            "description": "Employee not found"
           }
         }
       }
     },
     "/get-employee-full": {
       "get": {
-        "summary": "Get full employee data including job profile and pay",
+        "summary": "Get full employee data with joins and pay",
         "operationId": "get_employee_full",
         "parameters": [
           {
@@ -83,61 +70,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Detailed employee profile with pay and job profile",
+            "description": "Employee data retrieved",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "EmployeeNum": {
-                      "type": "string"
-                    },
-                    "PreferredName": {
-                      "type": "string"
-                    },
-                    "Surname": {
-                      "type": "string"
-                    },
-                    "Sex": {
-                      "type": "string"
-                    },
-                    "Appointdate": {
-                      "type": "string"
-                    },
-                    "JobTitle": {
-                      "type": "string"
-                    },
-                    "DeptName": {
-                      "type": "string"
-                    },
-                    "PositionTitle": {
-                      "type": "string"
-                    },
-                    "Salary": {
-                      "type": "number"
-                    },
-                    "ProfileID": {
-                      "type": "integer"
-                    },
-                    "ProfileName": {
-                      "type": "string"
-                    },
-                    "Description": {
-                      "type": "string"
-                    },
-                    "PayYear": {
-                      "type": "integer"
-                    },
-                    "PayMonth": {
-                      "type": "integer"
-                    },
-                    "PayAmount": {
-                      "type": "number"
-                    }
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": true
                   }
                 }
               }
             }
+          },
+          "404": {
+            "description": "Employee not found"
           }
         }
       }
