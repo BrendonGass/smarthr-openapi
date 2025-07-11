@@ -1,14 +1,10 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "SmartHR API",
-    "version": "1.0.1"
+    "title": "SmartHR Employee API",
+    "version": "1.0.0",
+    "description": "API to retrieve employee information, including full history and profiles."
   },
-  "servers": [
-    {
-      "url": "https://smarthr-flask-api.onrender.com"
-    }
-  ],
   "paths": {
     "/get-employee": {
       "get": {
@@ -28,35 +24,49 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string",
-              "enum": [
-                "Personnel",
-                "Personnel1"
-              ]
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful response",
+            "description": "Basic employee data returned",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": true
+                  "properties": {
+                    "EmployeeNum": {
+                      "type": "string"
+                    },
+                    "PreferredName": {
+                      "type": "string"
+                    },
+                    "Surname": {
+                      "type": "string"
+                    },
+                    "JobTitle": {
+                      "type": "string"
+                    },
+                    "DeptName": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "EmployeeNum",
+                    "PreferredName",
+                    "Surname"
+                  ]
                 }
               }
             }
-          },
-          "404": {
-            "description": "Employee not found"
           }
         }
       }
     },
     "/get-employee-full": {
       "get": {
-        "summary": "Get full employee data with joins and pay",
+        "summary": "Get full employee data including pay and job profile",
         "operationId": "get_employee_full",
         "parameters": [
           {
@@ -70,21 +80,60 @@
         ],
         "responses": {
           "200": {
-            "description": "Employee data retrieved",
+            "description": "Full employee profile with job and pay info",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "additionalProperties": true
-                  }
+                  "type": "object",
+                  "properties": {
+                    "EmployeeNum": {
+                      "type": "string"
+                    },
+                    "PreferredName": {
+                      "type": "string"
+                    },
+                    "Surname": {
+                      "type": "string"
+                    },
+                    "JobTitle": {
+                      "type": "string"
+                    },
+                    "DeptName": {
+                      "type": "string"
+                    },
+                    "PositionTitle": {
+                      "type": "string"
+                    },
+                    "Salary": {
+                      "type": "number"
+                    },
+                    "ProfileID": {
+                      "type": "integer"
+                    },
+                    "ProfileName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    },
+                    "PayYear": {
+                      "type": "integer"
+                    },
+                    "PayMonth": {
+                      "type": "integer"
+                    },
+                    "PayAmount": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "EmployeeNum",
+                    "PreferredName",
+                    "Surname"
+                  ]
                 }
               }
             }
-          },
-          "404": {
-            "description": "Employee not found"
           }
         }
       }
