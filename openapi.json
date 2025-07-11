@@ -3,7 +3,7 @@
   "info": {
     "title": "SmartHR API",
     "version": "1.0.0",
-    "description": "API for retrieving employee data from SmartHR system, including basic and full profile info with historical pay."
+    "description": "API to retrieve employee data and pay history from the SmartHR system."
   },
   "servers": [
     {
@@ -13,15 +13,16 @@
   "paths": {
     "/get-employee": {
       "get": {
-        "summary": "Get basic employee data",
         "operationId": "get_employee",
+        "summary": "Get basic employee data",
         "parameters": [
           {
             "name": "employee_number",
             "in": "query",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "CP003"
             }
           },
           {
@@ -30,149 +31,79 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": [
-                "Personnel",
-                "Personnel1"
-              ]
+              "enum": ["Personnel", "Personnel1"],
+              "default": "Personnel"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Basic employee data returned",
+            "description": "Employee data retrieved",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "EmployeeNum": {
-                      "type": "string"
-                    },
-                    "FirstName": {
-                      "type": "string"
-                    },
-                    "Surname": {
-                      "type": "string"
-                    },
-                    "JobTitle": {
-                      "type": "string"
-                    },
-                    "DeptName": {
-                      "type": "string"
-                    },
-                    "Appointdate": {
-                      "type": "string",
-                      "format": "date"
-                    },
-                    "Termination": {
-                      "type": "boolean"
-                    },
-                    "TerminationDate": {
-                      "type": "string",
-                      "format": "date"
-                    },
-                    "TerminationReason": {
-                      "type": "string"
-                    }
-                  }
+                  "additionalProperties": true
                 }
               }
             }
+          },
+          "404": {
+            "description": "Employee not found"
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       }
     },
     "/get-employee-full": {
       "get": {
-        "summary": "Get full employee data with pay and job profile info",
         "operationId": "get_employee_full",
+        "summary": "Get full employee profile and pay history",
         "parameters": [
           {
             "name": "employee_number",
             "in": "query",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "CEO_1"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Full employee profile with pay history",
+            "description": "Full employee profile and pay history",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "EmployeeNum": {
-                      "type": "string"
-                    },
-                    "FirstName": {
-                      "type": "string"
-                    },
-                    "Surname": {
-                      "type": "string"
-                    },
-                    "JobTitle": {
-                      "type": "string"
-                    },
-                    "DeptName": {
-                      "type": "string"
-                    },
-                    "Appointdate": {
-                      "type": "string",
-                      "format": "date"
-                    },
-                    "Termination": {
-                      "type": "boolean"
-                    },
-                    "TerminationDate": {
-                      "type": "string",
-                      "format": "date"
-                    },
-                    "TerminationReason": {
-                      "type": "string"
-                    },
-                    "Position": {
-                      "type": "string"
-                    },
-                    "PositionTitle": {
-                      "type": "string"
-                    },
-                    "Salary": {
-                      "type": "number"
-                    },
-                    "ProfileID": {
-                      "type": "integer"
-                    },
-                    "ProfileName": {
-                      "type": "string"
-                    },
-                    "Description": {
-                      "type": "string"
+                    "Employee": {
+                      "type": "object",
+                      "description": "Basic employee and job profile info",
+                      "additionalProperties": true
                     },
                     "PayHistory": {
                       "type": "array",
+                      "description": "List of pay history records",
                       "items": {
                         "type": "object",
                         "properties": {
-                          "PayDate": {
-                            "type": "string",
-                            "format": "date"
-                          },
-                          "Amount": {
-                            "type": "number"
-                          },
-                          "PayType": {
-                            "type": "string"
-                          }
-                        }
+                          "PayPeriod": { "type": "string" },
+                          "TemplateName": { "type": "string" }
+                        },
+                        "additionalProperties": true
                       }
                     }
                   }
                 }
               }
             }
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       }
