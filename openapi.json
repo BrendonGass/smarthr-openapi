@@ -2,8 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "SmartHR API",
-    "version": "1.0.0",
-    "description": "Get employee data, pay history, and job descriptions"
+    "version": "1.0.0"
   },
   "servers": [
     {
@@ -13,8 +12,8 @@
   "paths": {
     "/get-employee": {
       "get": {
-        "operationId": "getEmployee",
-        "summary": "Get basic employee info",
+        "operationId": "get_employee",
+        "summary": "Fetch basic employee data",
         "parameters": [
           {
             "name": "employee_number",
@@ -35,23 +34,12 @@
         ],
         "responses": {
           "200": {
-            "description": "Basic employee info",
+            "description": "Employee record",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "properties": {
-                    "EmployeeNum": { "type": "string" },
-                    "PreferredName": { "type": "string" },
-                    "Surname": { "type": "string" },
-                    "JobTitle": { "type": "string" }
-                  },
-                  "example": {
-                    "EmployeeNum": "CP003",
-                    "PreferredName": "Martha",
-                    "Surname": "Stewart",
-                    "JobTitle": "Recruitment Manager"
-                  }
+                  "additionalProperties": true
                 }
               }
             }
@@ -61,8 +49,8 @@
     },
     "/get-employee-full": {
       "get": {
-        "operationId": "getEmployeeFull",
-        "summary": "Get full employee job and profile info",
+        "operationId": "get_employee_full",
+        "summary": "Fetch extended employee data (including pay and job profile)",
         "parameters": [
           {
             "name": "employee_number",
@@ -73,63 +61,14 @@
         ],
         "responses": {
           "200": {
-            "description": "Full employee record",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "EmployeeNum": { "type": "string" },
-                    "JobTitle": { "type": "string" },
-                    "ProfileName": { "type": "string" },
-                    "Description": { "type": "string" }
-                  },
-                  "example": {
-                    "EmployeeNum": "CEO_1",
-                    "JobTitle": "Chief Executive Officer",
-                    "ProfileName": "Executive Leadership",
-                    "Description": "Responsible for overall company strategy and operations."
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/get-pay-history": {
-      "get": {
-        "operationId": "getPayHistory",
-        "summary": "Get historic payment records",
-        "parameters": [
-          {
-            "name": "employee_number",
-            "in": "query",
-            "required": true,
-            "schema": { "type": "string" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Pay history records",
+            "description": "Extended records for the employee",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
                     "type": "object",
-                    "properties": {
-                      "EmployeeNum": { "type": "string" },
-                      "PayDate": { "type": "string", "format": "date" },
-                      "Amount": { "type": "number" },
-                      "Description": { "type": "string" }
-                    },
-                    "example": {
-                      "EmployeeNum": "CP003",
-                      "PayDate": "2023-12-01",
-                      "Amount": 42000.50,
-                      "Description": "Monthly salary"
-                    }
+                    "additionalProperties": true
                   }
                 }
               }
