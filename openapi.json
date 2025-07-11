@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "SmartHR API",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   "servers": [
     {
@@ -12,8 +12,8 @@
   "paths": {
     "/get-employee": {
       "get": {
+        "summary": "Get basic employee data",
         "operationId": "get_employee",
-        "summary": "Fetch basic employee data",
         "parameters": [
           {
             "name": "employee_number",
@@ -34,11 +34,16 @@
         ],
         "responses": {
           "200": {
-            "description": "Employee record",
+            "description": "Basic employee record",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "properties": {
+                    "EmployeeNum": { "type": "string" },
+                    "PreferredName": { "type": "string" },
+                    "Surname": { "type": "string" }
+                  },
                   "additionalProperties": true
                 }
               }
@@ -49,8 +54,8 @@
     },
     "/get-employee-full": {
       "get": {
+        "summary": "Get full profile and pay history",
         "operationId": "get_employee_full",
-        "summary": "Fetch extended employee data (including pay and job profile)",
         "parameters": [
           {
             "name": "employee_number",
@@ -61,15 +66,30 @@
         ],
         "responses": {
           "200": {
-            "description": "Extended records for the employee",
+            "description": "Full employee profile and pay history",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "additionalProperties": true
-                  }
+                  "type": "object",
+                  "properties": {
+                    "EmployeeNum": { "type": "string" },
+                    "PreferredName": { "type": "string" },
+                    "Surname": { "type": "string" },
+                    "JobTitle": { "type": "string" },
+                    "DeptName": { "type": "string" },
+                    "PayHistory": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "PayDate": { "type": "string" },
+                          "Amount": { "type": "number" },
+                          "PayType": { "type": "string" }
+                        }
+                      }
+                    }
+                  },
+                  "additionalProperties": true
                 }
               }
             }
@@ -79,3 +99,4 @@
     }
   }
 }
+
